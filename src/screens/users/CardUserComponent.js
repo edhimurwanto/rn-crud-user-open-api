@@ -5,13 +5,28 @@ import Icon from 'react-native-vector-icons/Feather';
 
 const CardUserComponent = ({ data, handleClicked, handleDeleteUser }) => {
 
+    const handleDelete = () => {
+        Alert.alert(
+            "Delete User",
+            "Are you sure to remove this user ?",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "OK", onPress: () => handleDeleteUser(data.id) }
+            ]
+        );
+    }
+
     return (
         <TouchableOpacity style={styles.container} onPress={() => handleClicked(data)}>
             <Icon
                 name='x'
                 size={24}
                 style={styles.title}
-                onPress={() => handleDeleteUser(data.id)}
+                onPress={handleDelete}
             />
             <Text>{data.name}</Text>
             <Text>{data.gender}</Text>
