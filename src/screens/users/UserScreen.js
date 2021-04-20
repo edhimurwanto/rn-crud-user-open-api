@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, FlatList, StyleSheet, Modal, TextInput, Button, ToastAndroid } from "react-native";
 import SearchComponent from '../../components/SearchComponent';
-import CardUserComponent from '../../components/CardUserComponent';
 import VectorIcon from 'react-native-vector-icons/Ionicons'
 import Icon from 'react-native-vector-icons/Feather'
 import { createUser, editUser, listUser, removeUser } from '../users/UserService'
+import CardUserComponent from './CardUserComponent';
 
 const initialForm = {
     id: "",
