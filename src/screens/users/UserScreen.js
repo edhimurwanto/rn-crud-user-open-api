@@ -5,6 +5,32 @@ import VectorIcon from 'react-native-vector-icons/Ionicons'
 import Icon from 'react-native-vector-icons/Feather'
 import { createUser, editUser, listUser, removeUser } from '../users/UserService'
 import CardUserComponent from './CardUserComponent';
+import RadioButton from '../../components/RadioButton';
+import { sort } from '../../utils'
+
+const sortList = [
+    {
+        label: 'Nama A-Z',
+        desc: 'asc',
+        isActive: true
+    },
+    {
+        label: 'Nama Z-A',
+        desc: 'desc',
+        isActive: false
+    },
+    {
+        label: 'Email A-Z',
+        desc: 'asc',
+        isActive: false
+    },
+    {
+        label: 'Email Z-A',
+        desc: 'desc',
+        isActive: false
+    },
+]
+
 
 const initialForm = {
     id: "",
@@ -19,6 +45,29 @@ const UserScreen = () => {
     const [modalVisible, setModalVisible] = useState(false)
     const [users, setUsers] = useState([])
     const [form, setForm] = useState(initialForm)
+    const [searchModalVisible, setSearchModalVisible] = useState(false)
+    const [sortBy, setSortBy] = useState(sortList)
+
+    const handleSearchModalVisible = () => {
+        setSearchModalVisible(!searchModalVisible)
+    }
+
+    const handleSelectedSort = (data) => {
+        const newSortOrder = sortBy.map(sort => {
+           if(sort.label == data.label){
+               sort.isActive = true
+           } else {
+               sort.isActive = false
+           }
+           return sort;
+        })
+
+        setSortBy(newSortOrder)
+        const sortedUser = sort(users, data.desc)
+        setUsers(sortedUser)
+        setSearchModalVisible(!searchModalVisible)
+        
+    }
 
     const loadData = () => {
         listUser().then(resp => {
@@ -88,7 +137,7 @@ const UserScreen = () => {
 
     return (
         <View style={styles.container}>
-            <SearchComponent placeholder={'Search User. . .'} sortTitle={'FILTER'} />
+            <SearchComponent placeholder={'Search User. . .'} sortTitle={'SORT'} handleSort={handleSearchModalVisible}/>
             <FlatList
                 data={users}
                 renderItem={({ item: user }) => <CardUserComponent data={user} handleClicked={handleSelectedUser} handleDeleteUser={handleDeleteUser}/>}
@@ -147,6 +196,26 @@ const UserScreen = () => {
                 </View>
             </Modal>
 
+            <Modal
+                    visible={searchModalVisible}
+                    onDismiss={handleSearchModalVisible}
+                    transparent={true}
+                    onRequestClose={handleSearchModalVisible}
+                    onMagicTap={handleSearchModalVisible}
+                    animationType={'fade'}
+                >
+                    <View style={styles.centeredModal}>
+                        <View style={styles.modalContainer}>
+                            <RadioButton
+                                data={sortBy}
+                                styles={{ paddingVertical: 16 }}
+                                selectedColor='orange'
+                                unselectedColor='white'
+                                handleSelectedSort={handleSelectedSort}
+                                />
+                        </View>
+                    </View>
+                </Modal>
 
         </View>);
 }
@@ -179,6 +248,13 @@ const styles = StyleSheet.create({
     title: {
         flexDirection: 'row',
         justifyContent: 'space-between'
+    },
+    modalContainer: {
+        height: 260,
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 30, backgroundColor: 'white',
+        borderRadius: 4
     },
 
 })
