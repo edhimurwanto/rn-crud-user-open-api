@@ -48,6 +48,16 @@ const UserScreen = () => {
     const [searchModalVisible, setSearchModalVisible] = useState(false)
     const [sortBy, setSortBy] = useState(sortList)
 
+    const [text, setText] = useState("")
+
+    const handleSearchInput = (text) => {
+        if(!text){
+            setText("")
+        } else {
+            setText(text)
+        }
+    }
+
     const handleSearchModalVisible = () => {
         setSearchModalVisible(!searchModalVisible)
     }
@@ -135,11 +145,19 @@ const UserScreen = () => {
         loadData()
     }, [])
 
+    const newUserList = text == "" ? users : users.filter(user => {
+        const newText = text.toLowerCase()
+        return `${user.name}`.toLowerCase().includes(newText) || `${user.email}`.toLowerCase().includes(newText)    })
+
+
     return (
         <View style={styles.container}>
-            <SearchComponent placeholder={'Search User. . .'} sortTitle={'SORT'} handleSort={handleSearchModalVisible}/>
+            <SearchComponent placeholder={'Search User. . .'} sortTitle={'SORT'} 
+            handleSort={handleSearchModalVisible}
+            handleSearchInput={handleSearchInput}
+            />
             <FlatList
-                data={users}
+                data={newUserList}
                 renderItem={({ item: user }) => <CardUserComponent data={user} handleClicked={handleSelectedUser} handleDeleteUser={handleDeleteUser}/>}
                 keyExtractor={({ id }) => id}
                 style={{padding: 10}}
