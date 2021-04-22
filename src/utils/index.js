@@ -32,6 +32,34 @@ const sort = (data, type) => {
             // names must be equal
             return 0;
         })
+    } else if (type == 'emai-desc') {
+        return data.sort((a, b) => {
+            var nameA = a.email.toUpperCase(); // ignore upper and lowercase
+            var nameB = b.email.toUpperCase(); // ignore upper and lowercase
+            if (nameA > nameB) {
+                return -1;
+            }
+            if (nameA < nameB) {
+                return 1;
+            }
+
+            // names must be equal
+            return 0;
+        })
+    } else if (type == 'email-asc') {
+        return data.sort((a, b) => {
+            var nameA = a.email.toUpperCase(); // ignore upper and lowercase
+            var nameB = b.email.toUpperCase(); // ignore upper and lowercase
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA < nameB) {
+                return 1;
+            }
+
+            // names must be equal
+            return 0;
+        })
     } else {
         return data;
     }

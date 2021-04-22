@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
         display: 'flex',
         borderRadius: 8,
         marginBottom: 10,
-        marginHorizontal: 10,
     },
     title: {
         position: 'absolute',

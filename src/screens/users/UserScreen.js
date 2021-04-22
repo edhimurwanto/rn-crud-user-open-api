@@ -21,12 +21,12 @@ const sortList = [
     },
     {
         label: 'Email A-Z',
-        desc: 'asc',
+        desc: 'email-asc',
         isActive: false
     },
     {
         label: 'Email Z-A',
-        desc: 'desc',
+        desc: 'email-desc',
         isActive: false
     },
 ]
@@ -142,6 +142,7 @@ const UserScreen = () => {
                 data={users}
                 renderItem={({ item: user }) => <CardUserComponent data={user} handleClicked={handleSelectedUser} handleDeleteUser={handleDeleteUser}/>}
                 keyExtractor={({ id }) => id}
+                style={{padding: 10}}
             />
             <VectorIcon name='add-circle' size={66} style={{ position: 'absolute', bottom: 10, right: 10 }} color={'green'}
                 onPress={() => setModalVisible(!modalVisible)}
