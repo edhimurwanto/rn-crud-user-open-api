@@ -1,6 +1,6 @@
 import React from 'react';
-import UserScreen from "./src/screens/users/UserScreen";
+import AppNavigation from './src/navigation/AppNavigation';
 
-const App = () => <UserScreen/>
+const App = () => <AppNavigation/>
  
 export default App;
